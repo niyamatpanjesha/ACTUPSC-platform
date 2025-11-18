@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACTUPSC - AI-Powered UPSC Preparation Platform</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Landing Page -->
+    <div id="landing-page" class="page active">
+        <div class="landing-container">
+            <div class="landing-content">
+                <h1 class="landing-title">ACTUPSC</h1>
+                <p class="landing-subtitle">AI-Powered UPSC Preparation Platform</p>
+                <p class="landing-description">Your intelligent companion for Civil Services Examination preparation with personalized study plans, AI-powered answer evaluation, and comprehensive test series.</p>
+                <button class="btn btn--primary btn--lg" onclick="showOnboarding()">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style="margin-right: 8px;">
+                        <path d="M9 8.5C10.66 8.5 12 7.16 12 5.5C12 3.84 10.66 2.5 9 2.5C7.34 2.5 6 3.84 6 5.5C6 7.16 7.34 8.5 9 8.5ZM9 10C6.67 10 2 11.17 2 13.5V15.5H16V13.5C16 11.17 11.33 10 9 10Z" fill="currentColor"/>
+                    </svg>
+                    Sign In with Google
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Onboarding Page -->
+    <div id="onboarding-page" class="page">
+        <div class="onboarding-container">
+            <div class="onboarding-card">
+                <h2>Welcome to ACTUPSC</h2>
+                <p class="onboarding-subtitle">Let's personalize your UPSC preparation journey</p>
+                <form id="onboarding-form" onsubmit="completeOnboarding(event)">
+                    <div class="form-group">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" class="form-control" id="user-name" required placeholder="Enter your full name">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Target Exam Year</label>
+                        <select class="form-control" id="exam-year" required>
+                            <option value="">Select year</option>
+                            <option value="2025">2025</option>
+                            <option value="2026">2026</option>
+                            <option value="2027">2027</option>
+                            <option value="2028">2028</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Exam Stage</label>
+                        <select class="form-control" id="exam-stage" required>
+                            <option value="">Select stage</option>
+                            <option value="Prelims">Prelims</option>
+                            <option value="Mains">Mains</option>
+                            <option value="Both">Both</option>
+                            <option value="Interview Prep">Interview Prep</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Optional Subject</label>
+                        <select class="form-control" id="optional-subject" required>
+                            <option value="">Select optional subject</option>
+                            <option value="Public Administration">Public Administration</option>
+                            <option value="Geography">Geography</option>
+                            <option value="History">History</option>
+                            <option value="PSIR">Political Science &amp; International Relations</option>
+                            <option value="Sociology">Sociology</option>
+                            <option value="Anthropology">Anthropology</option>
+                            <option value="Philosophy">Philosophy</option>
+                            <option value="Psychology">Psychology</option>
+                            <option value="Economics">Economics</option>
+                            <option value="Law">Law</option>
+                            <option value="Mathematics">Mathematics</option>
+                            <option value="Physics">Physics</option>
+                            <option value="Chemistry">Chemistry</option>
+                            <option value="Botany">Botany</option>
+                            <option value="Zoology">Zoology</option>
+                            <option value="Medical Science">Medical Science</option>
+                            <option value="Agriculture">Agriculture</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Daily Study Hours Available: <span id="hours-display">6</span> hours</label>
+                        <input type="range" class="slider" id="study-hours" min="2" max="12" value="6" oninput="updateHoursDisplay(this.value)">
+                        <div class="slider-labels">
+                            <span>2h</span>
+                            <span>12h</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Current Preparation Level</label>
+                        <select class="form-control" id="prep-level" required>
+                            <option value="">Select level</option>
+                            <option value="Beginner">Beginner</option>
+                            <option value="Intermediate">Intermediate</option>
+                            <option value="Advanced">Advanced</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn--primary btn--full-width btn--lg">Generate My Study Plan</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div id="main-app" class="page">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="navbar-brand">ACTUPSC</div>
+            <div class="navbar-menu">
+                <a href="#" class="navbar-item active" onclick="navigateTo('dashboard')">Dashboard</a>
+                <a href="#" class="navbar-item" onclick="navigateTo('study-plan')">Study Plan</a>
+                <a href="#" class="navbar-item" onclick="navigateTo('answer-evaluation')">Answer Evaluation</a>
+                <a href="#" class="navbar-item" onclick="navigateTo('performance')">Performance</a>
+                <a href="#" class="navbar-item" onclick="navigateTo('notebook')">Notebook</a>
+                <a href="#" class="navbar-item" onclick="navigateTo('library')">Library</a>
+                <a href="#" class="navbar-item" onclick="navigateTo('test-series')">Test Series</a>
+            </div>
+            <div class="navbar-profile">
+                <span id="user-display-name">User</span>
+                <button class="btn btn--sm btn--outline" onclick="logout()">Logout</button>
+            </div>
+        </nav>
+
+        <!-- Dashboard View -->
+        <div id="dashboard-view" class="view active">
+            <div class="container">
+                <h2 class="view-title">Dashboard</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: var(--color-bg-1);">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <path d="M12 6v6l4 2"></path>
+                            </svg>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-label">Overall Progress</div>
+                            <div class="stat-value" id="overall-progress">68%</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: var(--color-bg-2);">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-warning)" stroke-width="2">
+                                <path d="M9 11l3 3L22 4"></path>
+                                <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"></path>
+                            </svg>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-label">Weekly Completion</div>
+                            <div class="stat-value" id="weekly-completion">75%</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: var(--color-bg-3);">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2">
+                                <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                            </svg>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-label">Mock Tests Taken</div>
+                            <div class="stat-value" id="tests-taken">12</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: var(--color-bg-4);">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-error)" stroke-width="2">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                            </svg>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-label">Average Score</div>
+                            <div class="stat-value" id="avg-score">72%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <div class="card__body">
+                            <h3>This Week's Tasks</h3>
+                            <div class="progress-container">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="week-progress" style="width: 75%;"></div>
+                                </div>
+                                <span class="progress-text">9 of 12 tasks completed</span>
+                            </div>
+                            <button class="btn btn--primary" onclick="navigateTo('study-plan')" style="margin-top: 16px;">View Study Plan</button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card__body">
+                            <h3>Recent Activity</h3>
+                            <div class="activity-list">
+                                <div class="activity-item">
+                                    <div class="activity-icon" style="background: var(--color-bg-3);">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-success)" stroke-width="2">
+                                            <path d="M20 6L9 17l-5-5"></path>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <div class="activity-title">Completed PYQ Test 2023</div>
+                                        <div class="activity-time">2 hours ago</div>
+                                    </div>
+                                </div>
+                                <div class="activity-item">
+                                    <div class="activity-icon" style="background: var(--color-bg-2);">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-warning)" stroke-width="2">
+                                            <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"></path>
+                                            <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <div class="activity-title">Submitted answer for evaluation</div>
+                                        <div class="activity-time">5 hours ago</div>
+                                    </div>
+                                </div>
+                                <div class="activity-item">
+                                    <div class="activity-icon" style="background: var(--color-bg-1);">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2">
+                                            <path d="M4 19.5A2.5 2.5 0 016.5 17H20"></path>
+                                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"></path>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <div class="activity-title">Added new note on Polity</div>
+                                        <div class="activity-time">1 day ago</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Study Plan View -->
+        <div id="study-plan-view" class="view"></div>
+
+        <!-- Answer Evaluation View -->
+        <div id="answer-evaluation-view" class="view"></div>
+
+        <!-- Performance View -->
+        <div id="performance-view" class="view"></div>
+
+        <!-- Notebook View -->
+        <div id="notebook-view" class="view"></div>
+
+        <!-- Library View -->
+        <div id="library-view" class="view"></div>
+
+        <!-- Test Series View -->
+        <div id="test-series-view" class="view"></div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>

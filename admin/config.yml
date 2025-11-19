@@ -1,0 +1,16 @@
+backend:
+  name: github
+  repo: niyamatpanjesha/actupsc-platform
+  branch: main
+media_folder: "uploads"
+public_folder: "/uploads"
+
+collections:
+  - name: "questions"
+    label: "Questions"
+    folder: "content/questions"
+    create: true
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Body", name: "body", widget: "text" }
+      - { label: "Attach PDF", name: "pdf", widget: "file", media_library: { allow_multiple: false } }
